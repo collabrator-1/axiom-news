@@ -756,45 +756,45 @@
     }).catch(() => fallbackCrypto());
   }
 
+  const FINNHUB_KEY = "da3jbcpr01qual4qclkgda3jbcpr01qual4qcll0";
+
   async function loadStocks() {
     if (!$("[data-stock]")) return;
     const status = $("[data-stock-status]"), note = $("[data-stock-note]");
     if (note) note.style.display = "none";
     if (status) status.textContent = "Updating…";
 
-    const finnhubKey = localStorage.getItem("axiom_finnhub_key") || window.FINNHUB_KEY;
+    const key = localStorage.getItem("axiom_finnhub_key") || window.FINNHUB_KEY || FINNHUB_KEY;
 
-    if (finnhubKey) {
-      try {
-        const symbols = ["SPY", "DIA", "QQQ"];
-        let success = false;
-        for (const sym of symbols) {
-          const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${finnhubKey}`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data && data.c) {
-              const row = $('[data-stock="' + sym + '"]');
-              if (row) {
-                const priceEl = $(".price", row), chgEl = $(".chg", row);
-                const p = data.c, dp = data.dp || 0;
-                if (priceEl) priceEl.textContent = "$" + p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                if (chgEl) {
-                  chgEl.textContent = (dp >= 0 ? "▲ +" : "▼ ") + Math.abs(dp).toFixed(2) + "%";
-                  chgEl.className = "chg " + (dp >= 0 ? "up" : "down");
-                }
-                flash(row, dp >= 0);
-                success = true;
+    try {
+      const symbols = ["SPY", "DIA", "QQQ"];
+      let success = false;
+      for (const sym of symbols) {
+        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${key}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.c) {
+            const row = $('[data-stock="' + sym + '"]');
+            if (row) {
+              const priceEl = $(".price", row), chgEl = $(".chg", row);
+              const p = data.c, dp = data.dp || 0;
+              if (priceEl) priceEl.textContent = "$" + p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+              if (chgEl) {
+                chgEl.textContent = (dp >= 0 ? "▲ +" : "▼ ") + Math.abs(dp).toFixed(2) + "%";
+                chgEl.className = "chg " + (dp >= 0 ? "up" : "down");
               }
+              flash(row, dp >= 0);
+              success = true;
             }
           }
         }
-        if (success && status) {
-          status.textContent = "Live · " + nowTime();
-          return;
-        }
-      } catch (e) {
-        console.warn("Finnhub API fetch failed:", e);
       }
+      if (success && status) {
+        status.textContent = "Live Finnhub · " + nowTime();
+        return;
+      }
+    } catch (e) {
+      console.warn("Finnhub API fetch failed:", e);
     }
 
     const liveStocks = {
