@@ -603,24 +603,16 @@
     return region || country || "Local Weather";
   }
 
-  async function fetchWeatherWithAPI(locationQuery) {
+  async function fetchWeatherWithAPI(locationQuery, isCustomCity = false) {
     const wrap = $("[data-weather]"); if (!wrap) return;
     const status = $("[data-weather-status]");
     if (status) status.textContent = "Updating…";
 
     let query = locationQuery;
-    if (!query || query === "auto:ip") {
-      try {
-        const ipRes = await fetch("https://ipapi.co/json/");
-        if (ipRes.ok) {
-          const ipData = await ipRes.json();
-          if (ipData.latitude && ipData.longitude) {
-            query = `${ipData.latitude},${ipData.longitude}`;
-          }
-        }
-      } catch (_) {}
+    if (!query) {
+      const savedCity = localStorage.getItem("axiom_custom_weather_city");
+      query = savedCity || "auto:ip";
     }
-    if (!query) query = "auto:ip";
 
     const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(query)}&days=4&aqi=no&alerts=no`;
 
@@ -632,10 +624,8 @@
       const locName = formatLocationName(data.location);
       const locEl = $("[data-weather-loc]"); if (locEl) locEl.textContent = locName;
 
-      localStorage.setItem("axiom_user_loc", locName);
-      if (data.location && data.location.lat && data.location.lon) {
-        localStorage.setItem("axiom_user_lat", data.location.lat);
-        localStorage.setItem("axiom_user_lon", data.location.lon);
+      if (isCustomCity && data.location && data.location.name) {
+        localStorage.setItem("axiom_custom_weather_city", data.location.name);
       }
 
       const days = $$("[data-wday]");
@@ -670,6 +660,12 @@
 
   function requestUserLocation(autoPrompt = false) {
     const status = $("[data-weather-status]");
+    const savedCity = localStorage.getItem("axiom_custom_weather_city");
+    if (savedCity) {
+      fetchWeatherWithAPI(savedCity);
+      return;
+    }
+
     if (status && autoPrompt) status.textContent = "Detecting location…";
 
     if ("geolocation" in navigator) {
@@ -681,10 +677,24 @@
         () => {
           fetchWeatherWithAPI("auto:ip");
         },
-        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
       );
     } else {
       fetchWeatherWithAPI("auto:ip");
+    }
+  }
+
+  function promptChangeCity() {
+    const currentLoc = localStorage.getItem("axiom_custom_weather_city") || $("[data-weather-loc]")?.textContent || "";
+    const input = prompt("Enter your City name for Weather (e.g. Lahore, Karachi, London, New York):\n(Leave empty to auto-detect using GPS)", currentLoc !== "Detecting location…" ? currentLoc : "");
+    if (input === null) return;
+    const trimmed = input.trim();
+    if (trimmed.length > 0) {
+      localStorage.setItem("axiom_custom_weather_city", trimmed);
+      fetchWeatherWithAPI(trimmed, true);
+    } else {
+      localStorage.removeItem("axiom_custom_weather_city");
+      requestUserLocation(true);
     }
   }
 
@@ -695,12 +705,16 @@
       reqBtn.dataset.wired = "1";
       on(reqBtn, "click", (e) => {
         e.preventDefault();
-        requestUserLocation(true);
+        promptChangeCity();
       });
     }
 
-    // Auto-detect browser location immediately on page load
-    requestUserLocation(true);
+    const savedCity = localStorage.getItem("axiom_custom_weather_city");
+    if (savedCity) {
+      fetchWeatherWithAPI(savedCity);
+    } else {
+      requestUserLocation(true);
+    }
   }
 
   function nowTime() {
