@@ -575,29 +575,26 @@
     return sun;
   }
 
-  async function resolveCleanCity(lat, lon, fallbackName, countryCode) {
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10`);
-      if (res.ok) {
-        const data = await res.json();
-        const addr = data.address || {};
-        const city = addr.city || addr.town || addr.municipality || addr.county || addr.state_district;
-        const country = addr.country_code ? addr.country_code.toUpperCase() : countryCode;
-        if (city) return country ? `${city}, ${country}` : city;
-      }
-    } catch (_) {}
+  function formatLocationName(loc) {
+    if (!loc) return "Local Weather";
+    let city = (loc.name || "").trim();
+    let region = (loc.region || "").trim();
+    let country = (loc.country || "").trim();
 
-    try {
-      const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
-      if (res.ok) {
-        const data = await res.json();
-        const city = data.city || data.locality || data.principalSubdivision;
-        const country = data.countryCode || countryCode;
-        if (city) return country ? `${city}, ${country}` : city;
-      }
-    } catch (_) {}
+    if (country === "United States of America" || country === "United States") country = "US";
+    if (country === "United Kingdom") country = "UK";
+    if (country === "United Arab Emirates") country = "UAE";
 
-    return fallbackName;
+    if (city) {
+      if (country === "US" && region && region.toLowerCase() !== city.toLowerCase()) {
+        return `${city}, ${region}`;
+      }
+      if (country && country.toLowerCase() !== city.toLowerCase()) {
+        return `${city}, ${country}`;
+      }
+      return city;
+    }
+    return region || country || "Local Weather";
   }
 
   async function fetchWeatherWithAPI(locationQuery) {
@@ -605,7 +602,20 @@
     const status = $("[data-weather-status]");
     if (status) status.textContent = "Updating…";
 
-    const query = locationQuery || "auto:ip";
+    let query = locationQuery;
+    if (!query || query === "auto:ip") {
+      try {
+        const ipRes = await fetch("https://ipapi.co/json/");
+        if (ipRes.ok) {
+          const ipData = await ipRes.json();
+          if (ipData.latitude && ipData.longitude) {
+            query = `${ipData.latitude},${ipData.longitude}`;
+          }
+        }
+      } catch (_) {}
+    }
+    if (!query) query = "auto:ip";
+
     const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(query)}&days=4&aqi=no&alerts=no`;
 
     try {
@@ -613,12 +623,7 @@
       if (!res.ok) throw new Error("WeatherAPI request failed");
       const data = await res.json();
 
-      let locName = data.location ? `${data.location.name}${data.location.country ? ", " + data.location.country : ""}` : "Weather";
-      if (data.location && data.location.lat && data.location.lon) {
-        const cleanName = await resolveCleanCity(data.location.lat, data.location.lon, locName, data.location.country);
-        if (cleanName) locName = cleanName;
-      }
-
+      const locName = formatLocationName(data.location);
       const locEl = $("[data-weather-loc]"); if (locEl) locEl.textContent = locName;
 
       localStorage.setItem("axiom_user_loc", locName);
@@ -670,7 +675,7 @@
         () => {
           fetchWeatherWithAPI("auto:ip");
         },
-        { timeout: 10000, maximumAge: 300000 }
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
       );
     } else {
       fetchWeatherWithAPI("auto:ip");
