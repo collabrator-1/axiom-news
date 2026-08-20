@@ -6,7 +6,7 @@
 <title>Section — Axiom</title>
 <meta name="description" content="Latest news and analysis from Axiom.">
 <meta name="theme-color" content="#E11D2A">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://aiupteocubknkbgchtme.supabase.co wss://aiupteocubknkbgchtme.supabase.co; frame-ancestors 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://api.weatherapi.com https://aiupteocubknkbgchtme.supabase.co wss://aiupteocubknkbgchtme.supabase.co https://api.open-meteo.com https://geocoding-api.open-meteo.com https://nominatim.openstreetmap.org https://api.bigdatacloud.net https://ipapi.co https://ip-api.com https://api.coingecko.com https://finnhub.io; frame-ancestors 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://www.axiom.news/">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -41,14 +41,15 @@
   <div class="container header-main">
     <a class="brand" href="index.html" aria-label="Axiom home"><span class="brand__mark">A</span><span class="brand__name">Axiom<b>.</b></span></a>
     <nav class="primary-nav" aria-label="Primary">
-      <li><a class="nav-link" href="category.html" data-cat="world">World</a></li>
-      <li><a class="nav-link" href="category.html" data-cat="business">Business</a></li>
-      <li><a class="nav-link" href="category.html" data-cat="technology">Technology</a></li>
-      <li><a class="nav-link" href="category.html" data-cat="ai">AI</a></li>
-      <li><a class="nav-link" href="category.html" data-cat="science">Science</a></li>
-      <li><a class="nav-link" href="category.html" data-cat="sport">Sport</a></li>
-      <li><a class="nav-link" href="category.html" data-cat="culture">Culture</a></li>
-      <li><a class="nav-link" href="category.html" data-cat="live" data-live>Live</a></li>
+      <li><a class="nav-link" href="category.html?cat=world#cat=world" data-cat="world">World</a></li>
+      <li><a class="nav-link" href="category.html?cat=business#cat=business" data-cat="business">Business</a></li>
+      <li><a class="nav-link" href="category.html?cat=technology#cat=technology" data-cat="technology">Technology</a></li>
+      <li><a class="nav-link" href="category.html?cat=ai#cat=ai" data-cat="ai">AI</a></li>
+      <li><a class="nav-link" href="category.html?cat=science#cat=science" data-cat="science">Science</a></li>
+      <li><a class="nav-link" href="category.html?cat=sport#cat=sport" data-cat="sport">Sport</a></li>
+      <li><a class="nav-link" href="category.html?cat=culture#cat=culture" data-cat="culture">Culture</a></li>
+      <li><a class="nav-link" href="category.html?cat=live#cat=live" data-cat="live" data-live>Live</a></li>
+      <li><a class="nav-link" href="admin.html" style="color:var(--accent);font-weight:600">Admin 🔒</a></li>
     </nav>
     <div class="header-actions">
       <button class="icon-btn" data-open-search aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></button>
