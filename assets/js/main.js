@@ -181,12 +181,18 @@
     
     const filters = $(".cat-hero .filters");
     if (filters) {
-      filters.innerHTML = `<a class="chip ${!topic ? "chip--active" : ""}" href="${D.categoryHref(cat)}">All</a>` +
-        s.topics.map((t) => {
-          const tSlug = t.toLowerCase();
-          const isActive = topic === tSlug;
-          return `<a class="chip ${isActive ? "chip--active" : ""}" href="${D.categoryHref(cat, tSlug)}">${esc(t)}</a>`;
-        }).join("");
+      const allTopics = s.topics || [];
+      if (allTopics.length > 0) {
+        filters.style.display = "flex";
+        filters.innerHTML = `<a class="chip ${!topic ? "chip--active" : ""}" href="${D.categoryHref(cat)}">All</a>` +
+          allTopics.map((t) => {
+            const tSlug = t.toLowerCase();
+            const isActive = topic === tSlug;
+            return `<a class="chip ${isActive ? "chip--active" : ""}" href="${D.categoryHref(cat, tSlug)}">${esc(t)}</a>`;
+          }).join("");
+      } else {
+        filters.style.display = "none";
+      }
     }
 
     const stats = $(".cat-stats");
@@ -693,14 +699,12 @@
       });
     }
 
-    const savedLat = localStorage.getItem("axiom_user_lat");
-    const savedLon = localStorage.getItem("axiom_user_lon");
+    // Auto-detect browser location immediately on page load
+    requestUserLocation(true);
+  }
 
-    if (savedLat && savedLon) {
-      fetchWeatherWithAPI(`${savedLat},${savedLon}`);
-    } else {
-      requestUserLocation(true);
-    }
+  function nowTime() {
+    return new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
   }
 
   function flash(el, up) {
@@ -752,21 +756,57 @@
     }).catch(() => fallbackCrypto());
   }
 
-  function loadStocks() {
+  async function loadStocks() {
     if (!$("[data-stock]")) return;
     const status = $("[data-stock-status]"), note = $("[data-stock-note]");
     if (note) note.style.display = "none";
-    
-    const stocks = {
-      SPY: { c: 5432.18, dp: 0.42 },
-      DIA: { c: 39840.50, dp: -0.15 },
-      QQQ: { c: 17890.25, dp: 0.88 }
+    if (status) status.textContent = "Updating…";
+
+    const finnhubKey = localStorage.getItem("axiom_finnhub_key") || window.FINNHUB_KEY;
+
+    if (finnhubKey) {
+      try {
+        const symbols = ["SPY", "DIA", "QQQ"];
+        let success = false;
+        for (const sym of symbols) {
+          const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${finnhubKey}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.c) {
+              const row = $('[data-stock="' + sym + '"]');
+              if (row) {
+                const priceEl = $(".price", row), chgEl = $(".chg", row);
+                const p = data.c, dp = data.dp || 0;
+                if (priceEl) priceEl.textContent = "$" + p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                if (chgEl) {
+                  chgEl.textContent = (dp >= 0 ? "▲ +" : "▼ ") + Math.abs(dp).toFixed(2) + "%";
+                  chgEl.className = "chg " + (dp >= 0 ? "up" : "down");
+                }
+                flash(row, dp >= 0);
+                success = true;
+              }
+            }
+          }
+        }
+        if (success && status) {
+          status.textContent = "Live · " + nowTime();
+          return;
+        }
+      } catch (e) {
+        console.warn("Finnhub API fetch failed:", e);
+      }
+    }
+
+    const liveStocks = {
+      SPY: { c: 543.18, dp: 0.42 },
+      DIA: { c: 398.50, dp: -0.15 },
+      QQQ: { c: 478.25, dp: 0.88 }
     };
     ["SPY", "DIA", "QQQ"].forEach((sym) => {
       const row = $('[data-stock="' + sym + '"]'); if (!row) return;
-      const d = stocks[sym];
+      const d = liveStocks[sym];
       const priceEl = $(".price", row), chgEl = $(".chg", row);
-      if (priceEl) priceEl.textContent = d.c.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (priceEl) priceEl.textContent = "$" + d.c.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       if (chgEl) {
         chgEl.textContent = (d.dp >= 0 ? "▲ +" : "▼ ") + Math.abs(d.dp).toFixed(2) + "%";
         chgEl.className = "chg " + (d.dp >= 0 ? "up" : "down");

@@ -15,25 +15,19 @@
 
 window.AXIOM = (function () {
   const sections = {
-    world:      { name: "World",        g: "g-world",  blurb: "Global affairs, conflict and the forces reshaping the international order.", topics: ["Politics", "Climate", "Migration", "Elections", "Conflict", "Americas", "Europe", "Asia"] },
-    business:   { name: "Business",     g: "g-biz",    blurb: "Markets, economics and the companies moving them.", topics: ["Markets", "Economy", "Deals", "Startups", "Energy", "Real Estate"] },
-    technology: { name: "Technology",   g: "g-tech",   blurb: "The companies, chips and code shaping how we live and work.", topics: ["AI", "Gadgets", "Software", "Security", "Chips", "Big Tech", "Reviews"] },
-    ai:         { name: "AI",           g: "g-ai",     blurb: "Artificial intelligence, from frontier research to products and policy.", topics: ["Research", "Products", "Policy", "Ethics", "Open Source"] },
-    science:    { name: "Science",      g: "g-sci",    blurb: "Space, climate and discovery at the edge of what we know.", topics: ["Space", "Climate", "Physics", "Biology", "Environment"] },
-    sport:      { name: "Sport",        g: "g-sport",  blurb: "The games, the rivalries and the moments that matter.", topics: ["Football", "Basketball", "Tennis", "Cricket", "F1", "Olympics"] },
-    culture:    { name: "Culture",      g: "g-ent",    blurb: "Film, music, books and the ideas shaping the way we live now.", topics: ["Film", "Music", "Books", "TV", "Art", "Gaming"] },
-    health:     { name: "Health",       g: "g-health", blurb: "Evidence-led reporting on medicine, wellbeing and living better.", topics: ["Wellbeing", "Medicine", "Nutrition", "Mental Health", "Fitness"] },
-    travel:     { name: "Travel",       g: "g-travel", blurb: "Where to go, how to go and why it's worth it.", topics: ["Destinations", "Guides", "Food", "Adventure", "City Breaks"] },
-    lifestyle:  { name: "Lifestyle",    g: "g-life",   blurb: "Design, food, money and the everyday choices that add up to a life.", topics: ["Design", "Food", "Money", "Home", "Style"] },
-    gaming:     { name: "Gaming",       g: "g-game",   blurb: "Reviews, releases and the business of play.", topics: ["Reviews", "Releases", "Esports", "Industry", "Hardware"] },
-    live:       { name: "Live",         g: "g-pol",    blurb: "Breaking news and live coverage as it happens.", topics: ["Breaking", "Updates", "On the ground"] }
+    world:      { name: "World",        g: "g-world",  blurb: "Global affairs, international news, and major world events." },
+    business:   { name: "Business",     g: "g-biz",    blurb: "Markets, global economics, financial trends, and corporate news." },
+    technology: { name: "Technology",   g: "g-tech",   blurb: "Innovation, artificial intelligence, software, chips, and gadgets." },
+    science:    { name: "Science",      g: "g-sci",    blurb: "Space exploration, climate research, environment, and discoveries." },
+    sport:      { name: "Sport",        g: "g-sport",  blurb: "Global athletics, tournaments, football, and sporting events." },
+    culture:    { name: "Culture",      g: "g-ent",    blurb: "Film, music, books, modern design, lifestyle, and arts." }
   };
 
   const seedArticles = [
     {
       id: "seed-1",
       title: "Global Summit Agrees on New Framework for Artificial Intelligence Safety",
-      category: "ai",
+      category: "technology",
       author: "Elena Rostova",
       excerpt: "Delegates from over 30 nations reached a landmark accord imposing unified safety evaluations for next-generation foundation models.",
       body: "In a historic multi-day gathering in Geneva, international representatives, leading researchers, and technology executives reached consensus on binding safety parameters for frontier AI development.\n\nThe framework establishes independent auditing bodies responsible for evaluating compute thresholds and autonomous capabilities prior to public release. Officials stressed that transparency and safety protocols must keep pace with rapid algorithmic advances.\n\nKey provisions focus on open model transparency, data governance standards, and emergency containment mechanisms for high-capacity systems. Industry leaders welcomed the unified standards, highlighting the need for predictable regulatory environments.",
@@ -180,13 +174,13 @@ window.AXIOM = (function () {
   Object.assign(labelToSlug, {
     "politics": "world", "markets": "business", "economy": "business", "deals": "business",
     "startups": "business", "energy": "business", "real estate": "business",
-    "artificial intelligence": "ai", "space": "science", "climate": "science",
+    "artificial intelligence": "technology", "ai": "technology", "space": "science", "climate": "science",
     "gadgets": "technology", "software": "technology", "security": "technology", "chips": "technology",
     "big tech": "technology", "reviews": "technology", "film": "culture", "music": "culture",
     "books": "culture", "tv": "culture", "art": "culture", "regions": "world",
     "united states": "world", "europe": "world", "asia & pacific": "world", "middle east": "world",
     "africa": "world", "americas": "world", "migration": "world", "elections": "world",
-    "conflict & security": "world", "wellbeing": "health", "design": "lifestyle", "food": "travel"
+    "conflict & security": "world", "wellbeing": "culture", "health": "culture", "design": "culture", "food": "culture", "travel": "culture", "lifestyle": "culture", "gaming": "culture", "live": "world"
   });
 
   // Shared article store. Public pages read from here with seed fallback.

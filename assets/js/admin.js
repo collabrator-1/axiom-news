@@ -178,12 +178,12 @@
         <td class="ttl">${esc(s.name)}</td>
         <td class="muted">/${k}</td>
         <td><b>${cnt}</b> article${cnt === 1 ? "" : "s"}</td>
-        <td class="muted">${esc((s.topics || []).slice(0, 5).join(", "))}</td>
+        <td class="muted" style="max-width:320px">${esc(s.blurb || "")}</td>
         <td style="text-align:right"><a class="btn btn--ghost btn--sm" href="${A.categoryHref(k)}" target="_blank">View Section ↗</a></td>
       </tr>`;
     }).join("");
-    return `<div class="view__head"><div class="sub">${Object.keys(A.sections).length} Site Categories &amp; Topics</div></div>
-      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Section</th><th>Slug</th><th>Articles</th><th>Topics</th><th style="text-align:right">Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    return `<div class="view__head"><div class="sub">${Object.keys(A.sections).length} Primary News Categories</div></div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Section</th><th>Slug</th><th>Articles</th><th>Description</th><th style="text-align:right">Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   };
 
   V.comments = function () {
