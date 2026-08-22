@@ -226,7 +226,7 @@ a:hover > .media::before, .card:hover .media::before, .hero__lead:hover .media::
 
 /* ---------- 8.5 WEATHER RIBBON ---------- */
 .weather-ribbon { padding-top: var(--s4); margin-bottom: var(--s2); }
-.weather-ribbon__inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 18px; background: var(--surface); border: 1.5px solid var(--border-strong); border-left: 4px solid var(--accent); border-radius: var(--r-md); box-shadow: var(--shadow-sm); flex-wrap: wrap; }
+.weather-ribbon__inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 18px; background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: var(--r-md); box-shadow: var(--shadow-sm); flex-wrap: wrap; }
 .weather-ribbon__loc { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text-2); }
 .weather-ribbon__loc span { font-weight: 600; color: var(--ink); }
 .weather-ribbon__forecast { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
