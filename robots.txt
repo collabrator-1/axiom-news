@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin.html
 Disallow: /api/
 
-Sitemap: https://www.axiom.news/sitemap.xml
+Sitemap: https://axiomnews.axiomnews.workers.dev/sitemap.xml
