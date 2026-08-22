@@ -48,7 +48,16 @@
 <!-- ============ UTILITY BAR ============ -->
 <div class="utility-bar">
   <div class="container">
-    <div class="u-left"><span class="u-dot"></span><time data-date>—</time></div>
+    <div class="u-left">
+      <span class="u-dot"></span>
+      <time data-date>—</time>
+      <span class="u-sep">|</span>
+      <button type="button" class="weather-pill-btn" data-request-location title="Click to change city or auto-detect weather location">
+        <span data-weather-mini>🌤️ --°C</span>
+        <span class="w-loc" data-weather-loc>Detecting location…</span>
+        <span class="w-edit">📍</span>
+      </button>
+    </div>
     <div class="u-right">
       <a href="#newsletter" class="hide-s">Subscribe</a>
       <a href="#newsletter" class="hide-s">Newsletters</a>
@@ -163,19 +172,9 @@
   </section>
 
 
-  <!-- ============ WIDGETS ROW (placeholders) ============ -->
+  <!-- ============ READER POLL SECTION ============ -->
   <section class="section container">
-    <div class="grid grid--2" style="align-items:start">
-      <div class="widget">
-        <div class="widget__head"><h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg> Weather · <button type="button" class="btn-loc-inline" data-request-location title="Click to use your local weather position"><span data-weather-loc>Detecting location…</span> 📍</button></h3><span class="note-src" data-weather-status>Loading…</span></div>
-        <div class="weather" data-weather>
-          <div class="weather__day" data-wday><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
-          <div class="weather__day" data-wday style="background:var(--surface)"><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
-          <div class="weather__day" data-wday><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
-          <div class="weather__day" data-wday><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
-        </div>
-      </div>
-
+    <div style="max-width: 680px; margin: 0 auto;">
       <div class="widget">
         <div class="widget__head"><h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Reader poll</h3><span class="note-src" data-poll-status>Live Vote</span></div>
         <div class="widget__body" style="padding:18px">

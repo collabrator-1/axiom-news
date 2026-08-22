@@ -33,7 +33,16 @@
 
 <div class="utility-bar">
   <div class="container">
-    <div class="u-left"><span class="u-dot"></span><time data-date>—</time></div>
+    <div class="u-left">
+      <span class="u-dot"></span>
+      <time data-date>—</time>
+      <span class="u-sep">|</span>
+      <button type="button" class="weather-pill-btn" data-request-location title="Click to change city or auto-detect weather location">
+        <span data-weather-mini>🌤️ --°C</span>
+        <span class="w-loc" data-weather-loc>Detecting location…</span>
+        <span class="w-edit">📍</span>
+      </button>
+    </div>
     <div class="u-right"><a href="index.html" class="hide-s">Home</a><a href="index.html#newsletter" class="hide-s">Subscribe</a></div>
   </div>
 </div>

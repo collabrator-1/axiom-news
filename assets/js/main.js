@@ -622,7 +622,19 @@
       const data = await res.json();
 
       const locName = formatLocationName(data.location);
-      const locEl = $("[data-weather-loc]"); if (locEl) locEl.textContent = locName;
+      $$("[data-weather-loc]").forEach(el => el.textContent = locName);
+
+      if (data.current) {
+        const curTemp = Math.round(data.current.temp_c);
+        const condText = data.current.condition ? data.current.condition.text.toLowerCase() : "";
+        let wEmoji = "☀️";
+        if (condText.includes("cloud") || condText.includes("overcast")) wEmoji = "🌤️";
+        else if (condText.includes("rain") || condText.includes("drizzle")) wEmoji = "🌧️";
+        else if (condText.includes("snow") || condText.includes("ice")) wEmoji = "❄️";
+        else if (condText.includes("thunder") || condText.includes("storm")) wEmoji = "🌩️";
+
+        $$("[data-weather-mini]").forEach(el => el.innerHTML = `${wEmoji} ${curTemp}°C`);
+      }
 
       if (isCustomCity && data.location && data.location.name) {
         localStorage.setItem("axiom_custom_weather_city", data.location.name);

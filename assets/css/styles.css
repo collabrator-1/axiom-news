@@ -162,9 +162,14 @@ a:hover > .media::before, .card:hover .media::before, .hero__lead:hover .media::
 /* ---------- 7. HEADER ---------- */
 .utility-bar { background: transparent; color: var(--text-3); font-size: 12px; border-bottom: 1px solid var(--border); }
 .utility-bar .container { display: flex; align-items: center; justify-content: space-between; height: 34px; }
-.utility-bar .u-left { display: flex; align-items: center; gap: 14px; }
+.utility-bar .u-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .utility-bar time { font-variant-numeric: tabular-nums; }
 .utility-bar .u-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.u-sep { opacity: .4; margin-inline: 2px; }
+.weather-pill-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--border); padding: 2px 9px; border-radius: var(--r-pill); transition: all var(--fast); cursor: pointer; }
+.weather-pill-btn:hover { border-color: var(--ink); color: var(--ink); background: var(--surface-2); }
+.weather-pill-btn .w-loc { font-weight: 600; color: var(--ink); max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.weather-pill-btn .w-edit { opacity: .7; font-size: 11px; }
 .utility-bar a { color: var(--text-3); transition: color var(--fast); }
 .utility-bar a:hover { color: var(--accent); }
 .utility-bar .u-right { display: flex; align-items: center; gap: 16px; }
