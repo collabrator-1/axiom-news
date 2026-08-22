@@ -48,16 +48,7 @@
 <!-- ============ UTILITY BAR ============ -->
 <div class="utility-bar">
   <div class="container">
-    <div class="u-left">
-      <span class="u-dot"></span>
-      <time data-date>—</time>
-      <span class="u-sep">|</span>
-      <button type="button" class="weather-pill-btn" data-request-location title="Click to change city or auto-detect weather location">
-        <span data-weather-mini>🌤️ --°C</span>
-        <span class="w-loc" data-weather-loc>Detecting location…</span>
-        <span class="w-edit">📍</span>
-      </button>
-    </div>
+    <div class="u-left"><span class="u-dot"></span><time data-date>—</time></div>
     <div class="u-right">
       <a href="#newsletter" class="hide-s">Subscribe</a>
       <a href="#newsletter" class="hide-s">Newsletters</a>
@@ -104,6 +95,26 @@
 </div>
 
 <main id="main">
+
+  <!-- ============ WEATHER RIBBON ============ -->
+  <div class="weather-ribbon container">
+    <div class="weather-ribbon__inner">
+      <div class="weather-ribbon__loc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+        <span>Weather:</span>
+        <button type="button" class="btn-loc-inline" data-request-location title="Click to change city or auto-detect weather position">
+          <span data-weather-loc>Detecting location…</span> 📍
+        </button>
+        <span class="note-src" data-weather-status style="font-size:11px;opacity:0.6;margin-left:4px">Live</span>
+      </div>
+      <div class="weather-ribbon__forecast" data-weather>
+        <div class="weather__day" data-wday><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
+        <div class="weather__day" data-wday><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
+        <div class="weather__day" data-wday><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
+        <div class="weather__day" data-wday><span class="lbl">—</span><div class="t muted-val">—</div><div class="d">—</div></div>
+      </div>
+    </div>
+  </div>
 
   <!-- ============ HERO (filled from published content) ============ -->
   <section class="hero container">

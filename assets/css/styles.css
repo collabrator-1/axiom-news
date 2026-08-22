@@ -224,8 +224,21 @@ a:hover > .media::before, .card:hover .media::before, .hero__lead:hover .media::
 .ticker__track a::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--text-3); }
 @keyframes ticker { to { transform: translateX(-100%); } }
 
+/* ---------- 8.5 WEATHER RIBBON ---------- */
+.weather-ribbon { padding-top: var(--s4); }
+.weather-ribbon__inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 16px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); flex-wrap: wrap; }
+.weather-ribbon__loc { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text-2); }
+.weather-ribbon__loc span { font-weight: 600; color: var(--ink); }
+.weather-ribbon__forecast { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
+.weather-ribbon__forecast::-webkit-scrollbar { display: none; }
+.weather-ribbon__forecast .weather__day { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--r-pill); background: var(--surface); border: 1px solid var(--border); font-size: 12.5px; white-space: nowrap; transition: border-color var(--fast); }
+.weather-ribbon__forecast .weather__day:hover { border-color: var(--border-strong); }
+.weather-ribbon__forecast .weather__day .lbl { font-weight: 500; color: var(--text-2); font-size: 12px; }
+.weather-ribbon__forecast .weather__day .d { font-weight: 600; color: var(--text-3); font-size: 10px; text-transform: uppercase; }
+.weather-ribbon__forecast .weather__day .t { font-weight: 700; color: var(--ink); font-size: 13px; }
+
 /* ---------- 9. HERO ---------- */
-.hero { padding-top: var(--s6); }
+.hero { padding-top: var(--s4); }
 .hero__grid { display: grid; grid-template-columns: 1.8fr 1fr; gap: var(--s6); }
 .hero__lead { position: relative; border-radius: var(--r-lg); overflow: hidden; min-height: 500px; display: flex; }
 .hero__lead .media { position: absolute; inset: 0; aspect-ratio: auto; }
